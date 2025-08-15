@@ -93,7 +93,7 @@ async function predict() {
         
         const confidence = (maxProb * 100).toFixed(1);
         document.getElementById('result').textContent = 
-            `${classNames[maxIndex]} (${confidence}%) - Check console for debug info`;
+            `${classNames[maxIndex]} (${confidence}%)`;
         
         tensor.dispose();
         prediction.dispose();
@@ -107,10 +107,6 @@ async function predict() {
 async function loadModel() {
     try {
         model = await tf.loadGraphModel('./model/model.json');
-        console.log('Model loaded');
-        console.log('Input shape expected:', model.inputs[0].shape);
-        console.log('Output shape:', model.outputs[0].shape);
-        console.log('Model summary:', model);
         document.getElementById('result').textContent = 'Model loaded - draw something';
     } catch (error) {
         console.error('Load error:', error);
