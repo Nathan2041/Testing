@@ -119,5 +119,3 @@ async function loadModel() {
 }
 
 loadModel();
-
-loadModel();
