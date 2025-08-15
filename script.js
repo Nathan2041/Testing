@@ -1,7 +1,7 @@
 let model;
 let isDrawing = false;
 
-const classNames = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const classNames = ['', 'cat', 'airplane', 'jail', 'line', 'alarm clock', 'baseball', 'baseball bat']; // for some reason the notebook used 1-based indexing
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -106,25 +106,18 @@ async function predict() {
 
 async function loadModel() {
     try {
-        updateStatus('Loading model...', 'loading');
-        
-        const modelUrl = 'https://teachablemachine.withgoogle.com/models/n-Mz_3nSO/';
-        
-        model = await tf.loadLayersModel(modelUrl + 'model.json');
-        
-        console.log('Model loaded successfully');
-        console.log('Input shape:', model.inputs[0].shape);
+        model = await tf.loadGraphModel('./model/model.json');
+        console.log('Model loaded');
+        console.log('Input shape expected:', model.inputs[0].shape);
         console.log('Output shape:', model.outputs[0].shape);
-        
-        updateStatus('Model loaded! Ready to classify drawings.', 'ready');
-        document.getElementById('predictBtn').disabled = false;
-        document.getElementById('result').textContent = 'Draw something and click predict';
-        
+        console.log('Model summary:', model);
+        document.getElementById('result').textContent = 'Model loaded - draw something';
     } catch (error) {
-        console.error('Error loading model:', error);
-        updateStatus('Error loading model. Please check your connection.', 'error');
+        console.error('Load error:', error);
         document.getElementById('result').textContent = 'Failed to load model';
     }
 }
+
+loadModel();
 
 loadModel();
